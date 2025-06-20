@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stereo Vision Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #111827;
+            color: #F3F4F6;
+        }
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            position: relative; /* For slide number positioning */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            background-color: #111827;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .swiper-slide h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+            letter-spacing: -0.05em;
+        }
+        .swiper-slide h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #38BDF8; /* Light Blue */
+            letter-spacing: -0.05em;
+        }
+        .swiper-slide h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #F3F4F6;
+        }
+        .swiper-slide p, .swiper-slide li {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+        .swiper-pagination-bullet {
+            background-color: #6B7280;
+            width: 12px;
+            height: 12px;
+        }
+        .swiper-pagination-bullet-active {
+            background-color: #38BDF8;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #38BDF8;
+            transform: scale(0.8);
+        }
+        .slide-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            gap: 2rem;
+        }
+        .text-left-align {
+            text-align: left;
+        }
+        .text-highlight {
+            color: #38BDF8;
+            font-weight: 600;
+        }
+        .code-block {
+            background-color: #1F2937;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-family: 'D2Coding', monospace;
+            font-size: 1rem;
+            text-align: left;
+            width: 100%;
+            max-width: 800px;
+            overflow-x: auto;
+            border: 1px solid #374151;
+        }
+        .formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.8rem;
+            color: #A5F3FC; /* Light Cyan */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        .card {
+            background-color: #1F2937;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid #374151;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.1), 0 4px 6px -2px rgba(56, 189, 248, 0.05);
+        }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #38BDF8;
+        }
+        .img-caption {
+            font-size: 0.9rem;
+            color: #9CA3AF;
+            margin-top: 1rem;
+        }
+
+        /* Interactive Calculator Styles */
+        .interactive-calculator {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #374151;
+            border-radius: 0.5rem;
+        }
+        .calc-grid-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.25rem;
+            width: 130px;
+        }
+        .grid-input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            background-color: #1F2937;
+            color: #F3F4F6;
+            border: 1px solid #4B5563;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            -moz-appearance: textfield;
+            transition: all 0.3s ease;
+        }
+        .grid-input::-webkit-outer-spin-button,
+        .grid-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .grid-input.center {
+            border: 2px solid #38BDF8;
+            background-color: #1E40AF;
+        }
+        .grid-input.highlight {
+            background-color: #EF4444;
+            border-color: #F87171;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        .grid-input.processing {
+            background-color: #FBBF24;
+            border-color: #FCD34D;
+            animation: pulse 0.5s ease-in-out;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #38BDF8;
+            color: #111827;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .calculate-btn:hover {
+            background-color: #7DD3FC;
+        }
+        .calculate-btn:disabled {
+            background-color: #6B7280;
+            cursor: not-allowed;
+        }
+        .result-display {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #1F2937;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .calculation-steps {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #1F2937;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            min-height: 60px;
+            overflow-y: auto;
+            max-height: 120px;
+        }
+        .step-highlight {
+            color: #FBBF24;
+            font-weight: bold;
+        }
+        .step-result {
+            color: #38BDF8;
+            font-weight: bold;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .census-bit {
+            display: inline-block;
+            padding: 2px 6px;
+            margin: 1px;
+            background-color: #1F2937;
+            border: 1px solid #4B5563;
+            border-radius: 3px;
+            font-family: monospace;
+            transition: all 0.3s ease;
+        }
+        .census-bit.active {
+            background-color: #38BDF8;
+            color: #111827;
+            transform: scale(1.1);
+        }
+
+        /* Interactive Card Styles */
+        .algorithm-card {
+            background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+            border: 2px solid #374151;
+            border-radius: 1rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+        }
+        .algorithm-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #38BDF8;
+            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.2), 0 10px 10px -5px rgba(56, 189, 248, 0.1);
+        }
+        .algorithm-card.expanded {
+            background: linear-gradient(135deg, #1E40AF 0%, #1F2937 100%);
+            border-color: #60A5FA;
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        .algorithm-card.sad {
+            border-left: 4px solid #06B6D4;
+        }
+        .algorithm-card.ssd {
+            border-left: 4px solid #8B5CF6;
+        }
+        .algorithm-card.census {
+            border-left: 4px solid #10B981;
+        }
+        .card-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: #9CA3AF;
+            line-height: 1.4;
+        }
+        .card-content {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease-in-out;
+        }
+        .card-content.show {
+            opacity: 1;
+            max-height: 400px;
+            margin-top: 1.5rem;
+        }
+        .formula-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            font-family: 'Times New Roman', serif;
+        }
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.25rem;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        .grid-cell {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #374151;
+            border: 1px solid #4B5563;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .grid-cell.center {
+            background: #1E40AF;
+            border-color: #3B82F6;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+        .click-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38BDF8;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            animation: zoomIn 0.3s ease-out;
+        }
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        .clickable-image {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .clickable-image:hover {
+            transform: scale(1.02);
+        }
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Calculation Modal Styles */
+        .calc-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.4s ease-out;
+        }
+        .calc-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .calc-modal-content {
+            position: relative;
+            background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+            border: 2px solid #38BDF8;
+            border-radius: 1rem;
+            padding: 3rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            animation: calcZoomIn 0.4s ease-out;
+            box-shadow: 0 25px 50px -12px rgba(56, 189, 248, 0.25);
+        }
+        .calc-modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #374151;
+        }
+        .calc-modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #38BDF8;
+            margin-bottom: 0.5rem;
+        }
+        .calc-modal-subtitle {
+            font-size: 1.1rem;
+            color: #9CA3AF;
+        }
+        .calc-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #fff;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #EF4444;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .calc-close:hover {
+            background: rgba(239, 68, 68, 0.4);
+            transform: scale(1.1);
+        }
+        .calc-grid-large {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            width: 200px;
+            margin: 0 auto;
+        }
+        .grid-input-large {
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            background-color: #1F2937;
+            color: #F3F4F6;
+            border: 2px solid #4B5563;
+            border-radius: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .grid-input-large.center {
+            border: 3px solid #38BDF8;
+            background-color: #1E40AF;
+            color: #FFFFFF;
+        }
+        .grid-input-large.highlight {
+            background-color: #EF4444;
+            border-color: #F87171;
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+        }
+        .calc-steps-large {
+            background-color: #0F172A;
+            border: 2px solid #1E293B;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 2rem;
+        }
+        .step-item {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border-left: 4px solid #38BDF8;
+            background: rgba(56, 189, 248, 0.1);
+            animation: slideInLeft 0.5s ease-out;
+        }
+        .step-number {
+            color: #38BDF8;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .step-calculation {
+            color: #FBBF24;
+            font-weight: bold;
+            margin: 0.25rem 0;
+        }
+        .step-result {
+            color: #10B981;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .final-result {
+            background: linear-gradient(90deg, #10B981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
+        }
+        @keyframes calcZoomIn {
+            from {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="w-screen h-screen">
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1: Title -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">1 / 15</div>
+                <div class="text-center">
+                    <p class="text-xl text-sky-400 font-semibold mb-4">Stereo Vision Full Guide</p>
+                    <h1 class="bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">스테레오 비전 학습 가이드</h1>
+                    <h1 class="mb-8">두 눈으로 세상을 이해하는 기술</h1>
+                    <p class="text-lg text-gray-400">핵심 원리부터 실전 응용까지</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Overview -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">2 / 15</div>
+                <h2>🚀 스테레오 비전 개요</h2>
+                <div class="slide-content text-left-align">
+                    <div class="w-2/3">
+                        <p class="mb-6">스테레오 비전은 <span class="text-highlight">두 개의 카메라</span>를 사용하여 3차원 깊이 정보를 추출하는 컴퓨터 비전 기술입니다. 인간의 두 눈이 사물과의 거리를 인지하는 <span class="text-highlight">양안시(Binocular Vision)</span> 원리를 모방합니다.</p>
+                        <p>LiDAR와 같은 고가의 센서 대비 <span class="text-highlight">저비용</span>으로 거리 측정이 가능하여 다양한 분야의 핵심 기술로 자리 잡고 있습니다.</p>
+                    </div>
+                    <div class="w-1/3">
+                        <div class="card">
+                            <h3 class="text-cyan-400">🎯 주요 응용 분야</h3>
+                            <ul class="list-disc list-inside mt-4 space-y-2 text-sm">
+                                <li>자율주행</li>
+                                <li>로보틱스 (SLAM)</li>
+                                <li>AR / VR</li>
+                                <li>3D 모델링</li>
+                                <li>의료 영상</li>
+                                <li>품질 검사</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: 목차 -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">3 / 15</div>
+                <h2>📚 목차 (Table of Contents)</h2>
+                <div class="grid grid-cols-2 gap-x-12 gap-y-6 text-left-align max-w-4xl w-full">
+                    <div class="text-lg"><span class="text-highlight font-bold">1.</span> StereoVision이란?</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">2.</span> 3차원 거리 계산 원리</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">3.</span> 스테레오 매칭과 시차 맵</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">4.</span> Python 코드 구현</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">5.</span> 실무 트러블슈팅 가이드</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">6.</span> 성능 최적화 노하우</div>
+                    <div class="text-lg"><span class="text-highlight font-bold">7.</span> 실제 프로젝트 케이스 스터디</div>
+                </div>
+            </div>
+
+            <!-- Slide 4: 1. StereoVision이란? -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">4 / 15</div>
+                <h2>1. StereoVision이란?</h2>
+                 <div class="slide-content items-start">
+                    <div class="w-1/2 text-left-align">
+                        <h3 class="mb-4 text-cyan-400">🔍 기본 개념</h3>
+                        <p>사람의 양안시 원리를 모방하여 2차원 영상으로부터 3차원 깊이 정보를 추출하는 기술입니다. 두 카메라로 촬영한 좌/우 영상의 <span class="text-highlight">시차(Disparity)</span>를 이용하여 거리 정보를 계산합니다.</p>
+                        
+                        <h3 class="mt-8 mb-4 text-cyan-400">✅ 장단점</h3>
+                        <p><span class="text-green-400 font-semibold">장점:</span> 저비용, 넓은 측정 범위, 간단한 시스템 구성</p>
+                        <p><span class="text-red-400 font-semibold">단점:</span> 상대적으로 낮은 정확도, 조명 민감성, 텍스처 없는 표면(흰 벽 등)에 취약</p>
+                    </div>
+                    <div class="w-1/2">
+                        <img src="../images/image1.png" alt="스테레오비전 개념" class="rounded-lg bg-gray-800 p-1 border border-gray-700"/>
+                        <p class="img-caption">두 카메라의 영상 차이로 깊이를 인식합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: 2. 3차원 거리 계산 원리 -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">5 / 15</div>
+                <h2>2. 3차원 거리 계산 원리</h2>
+                <div class="slide-content text-left-align">
+                    <div class="w-1/2">
+                        <img src="../images/image3.png" alt="3차원 거리 계산 원리" class="rounded-lg bg-gray-800 p-1 border border-gray-700"/>
+                        <p class="img-caption">유사 삼각형 원리를 이용한 깊이(Z) 계산</p>
+                    </div>
+                    <div class="w-1/2">
+                        <p class="mb-6">깊이(Z)는 <span class="text-highlight">초점거리(f)</span>와 <span class="text-highlight">베이스라인(b)</span>의 곱을 <span class="text-highlight">시차(d)</span>로 나눈 값입니다.</p>
+                        <div class="code-block text-center">
+                            <p class="formula">Z = (f × b) / d</p>
+                        </div>
+                        <ul class="mt-6 list-disc list-inside space-y-2">
+                            <li><span class="text-highlight">Z</span>: 깊이 (카메라로부터의 거리)</li>
+                            <li><span class="text-highlight">f</span>: 카메라 초점거리 (pixels)</li>
+                            <li><span class="text-highlight">b</span>: 두 카메라 사이의 거리 (meters)</li>
+                            <li><span class="text-highlight">d</span>: 시차 (pixels) = x_L - x_R</li>
+                        </ul>
+                    </div>
+                </div>
+                 <p class="mt-8 text-xl">핵심: <span class="text-amber-400">시차가 클수록 가깝고</span>, <span class="text-sky-400">시차가 작을수록 멉니다.</span> (반비례 관계)</p>
+            </div>
+            
+            <!-- Slide 6: 3. Stereo Matching -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">6 / 15</div>
+                <h2>3. 스테레오 매칭 (Stereo Matching)</h2>
+                <p class="mb-6">좌측 영상의 한 픽셀에 대응하는 점을 우측 영상에서 찾는 과정</p>
+                <div class="slide-content items-stretch">
+                    <div class="card w-2/5">
+                        <h3 class="mb-4">입력 (Input)</h3>
+                        <p>보정된 좌/우 이미지 한 쌍</p>
+                        <img src="../images/image5.png" alt="스테레오 정합 입력" class="rounded mt-4 border border-gray-700"/>
+                    </div>
+                     <div class="flex items-center justify-center text-4xl text-sky-400 px-4">
+                        <i class="fas fa-arrow-right-long"></i>
+                    </div>
+                    <div class="card w-2/5">
+                        <h3 class="mb-4">결과 (Output)</h3>
+                        <p>시차 맵 (Disparity Map)</p>
+                        <div class="w-full h-32 mt-4 border border-gray-700 rounded relative overflow-hidden bg-gradient-to-r from-black via-gray-600 to-white">
+                            <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-500 via-gray-300 to-white opacity-80"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-lg bg-black bg-opacity-50 px-3 py-1 rounded">
+                                Disparity Map
+                            </div>
+                        </div>
+                        <p class="img-caption">밝은 영역 = 가까움 (시차 큼)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 7: Matching Algorithms -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">7 / 15</div>
+                <h2>스테레오 매칭 알고리즘</h2>
+                <div class="slide-content text-left-align items-stretch">
+                    <div class="card w-1/2">
+                        <h3 class="text-cyan-400">🏠 지역 정합 (Local)</h3>
+                        <p class="mb-4">특정 윈도우(영역)만 보고 비용을 계산합니다.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><span class="text-highlight">특징:</span> <span class="text-green-400">속도 빠름</span>, 구현 용이, 하드웨어 친화적</li>
+                            <li><span class="text-highlight">단점:</span> 정확도 보통, 반복 패턴/텍스처 없는 영역에 취약</li>
+                            <li><span class="text-highlight">알고리즘:</span> SAD, SSD, NCC, Census</li>
+                        </ul>
+                    </div>
+                    <div class="card w-1/2">
+                        <h3 class="text-fuchsia-400">🌐 전역 정합 (Global)</h3>
+                        <p class="mb-4">영상 전체의 관계를 고려하여 시차를 결정합니다.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><span class="text-highlight">특징:</span> <span class="text-green-400">정확도 높음</span>, 경계선 표현 우수</li>
+                            <li><span class="text-highlight">단점:</span> 계산량 많고 매우 느림</li>
+                             <li><span class="text-highlight">알고리즘:</span> Graph Cuts, Belief Propagation, SGM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Local Matching Methods Detail -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">8 / 15</div>
+                <h2>🔍 지역 정합 방법 상세</h2>
+                <div class="grid grid-cols-3 gap-6 w-full max-w-6xl mt-8">
+                    <!-- SAD Card -->
+                    <div class="algorithm-card sad" data-algorithm="sad">
+                        <div class="card-header">
+                            <h3 class="card-title text-cyan-400">SAD</h3>
+                            <h4 class="text-lg font-semibold text-white mb-2">(Sum of Absolute Differences)</h4>
+                            <p class="card-subtitle">픽셀값 차이의 절댓값 합으로 비용(Cost) 계산</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="example-grid mb-4">
+                                <div class="grid-cell">85</div>
+                                <div class="grid-cell">90</div>
+                                <div class="grid-cell">95</div>
+                                <div class="grid-cell">80</div>
+                                <div class="grid-cell">88</div>
+                                <div class="grid-cell">92</div>
+                                <div class="grid-cell">75</div>
+                                <div class="grid-cell">82</div>
+                                <div class="grid-cell">85</div>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-2">좌측 윈도우</p>
+                        </div>
+
+                        <div class="card-content" id="sad-content">
+                            <div class="formula-box">
+                                SAD = Σ |I<sub>L</sub>(x,y) - I<sub>R</sub>(x-d,y)|
+                            </div>
+                            <p class="text-sm text-gray-300 mb-3">
+                                좌측 영상의 윈도우와 우측 영상의 여러 후보 윈도우를 비교하여 픽셀값 차이의 절댓값 합이 <span class="text-cyan-400 font-semibold">가장 작은</span> 위치를 찾습니다.
+                            </p>
+                            <div class="text-center mb-3">
+                                <img src="../images/image8.png" alt="SAD 계산 과정" class="clickable-image rounded-lg border border-gray-600 bg-white p-2" style="max-width: 100%; height: auto;"/>
+                                <p class="img-caption">SAD 매칭 과정과 비용 계산</p>
+                            </div>
+                            <div class="bg-gray-700 p-3 rounded">
+                                <div class="text-xs">
+                                    <div class="mb-1"><span class="text-cyan-400">✓ 장점:</span> 빠른 계산, 간단한 구현</div>
+                                    <div><span class="text-red-400">✗ 단점:</span> 노이즈에 민감, 조명 변화에 취약</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="click-hint">
+                            <i class="fas fa-mouse-pointer text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- SSD Card -->
+                    <div class="algorithm-card ssd" data-algorithm="ssd">
+                        <div class="card-header">
+                            <h3 class="card-title text-purple-400">SSD</h3>
+                            <h4 class="text-lg font-semibold text-white mb-2">(Sum of Squared Differences)</h4>
+                            <p class="card-subtitle">픽셀값 차이의 제곱 합으로 비용 계산. 오차에 더 민감.</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="example-grid mb-4">
+                                <div class="grid-cell">85</div>
+                                <div class="grid-cell">90</div>
+                                <div class="grid-cell">95</div>
+                                <div class="grid-cell">80</div>
+                                <div class="grid-cell">88</div>
+                                <div class="grid-cell">92</div>
+                                <div class="grid-cell">75</div>
+                                <div class="grid-cell">82</div>
+                                <div class="grid-cell">85</div>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-2">좌측 윈도우</p>
+                        </div>
+
+                        <div class="card-content" id="ssd-content">
+                            <div class="formula-box">
+                                SSD = Σ (I<sub>L</sub>(x,y) - I<sub>R</sub>(x-d,y))<sup>2</sup>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-3">
+                                SAD와 유사하지만 차이값을 <span class="text-purple-400 font-semibold">제곱</span>하여 합산합니다. 큰 오차에 더 민감하게 반응하여 정확도가 높습니다.
+                            </p>
+                            <div class="text-center mb-3">
+                                <img src="../images/image9.png" alt="SSD 계산 과정" class="clickable-image rounded-lg border border-gray-600 bg-white p-2" style="max-width: 100%; height: auto;"/>
+                                <p class="img-caption">SSD 매칭 과정과 제곱 차이 계산</p>
+                            </div>
+                            <div class="bg-gray-700 p-3 rounded">
+                                <div class="text-xs">
+                                    <div class="grid grid-cols-3 gap-2 mb-2">
+                                        <div class="font-semibold">차이값</div>
+                                        <div class="font-semibold text-cyan-400">SAD</div>
+                                        <div class="font-semibold text-purple-400">SSD</div>
+                                        <div>1</div><div>1</div><div>1</div>
+                                        <div>2</div><div>2</div><div class="text-purple-400 font-bold">4</div>
+                                        <div>5</div><div>5</div><div class="text-purple-400 font-bold">25</div>
+                                    </div>
+                                    <p class="text-gray-400">SSD는 큰 오차를 더 크게 처벌</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="click-hint">
+                            <i class="fas fa-mouse-pointer text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Census Transform Card -->
+                    <div class="algorithm-card census" data-algorithm="census">
+                        <div class="card-header">
+                            <h3 class="card-title text-green-400">Census Transform</h3>
+                            <p class="card-subtitle">중심 픽셀과 주변 픽셀의 대소 관계로 비트 패턴 생성</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p class="text-sm text-gray-300 mb-2">픽셀 윈도우</p>
+                            <div class="example-grid mb-4">
+                                <div class="grid-cell">120</div>
+                                <div class="grid-cell">125</div>
+                                <div class="grid-cell">130</div>
+                                <div class="grid-cell">110</div>
+                                <div class="grid-cell center">100</div>
+                                <div class="grid-cell">90</div>
+                                <div class="grid-cell">105</div>
+                                <div class="grid-cell">95</div>
+                                <div class="grid-cell">80</div>
+                            </div>
+                        </div>
+
+                        <div class="card-content" id="census-content">
+                            <p class="text-sm text-gray-300 mb-3">
+                                픽셀값 자체가 아닌 <span class="text-green-400 font-semibold">상대적 관계</span>를 비트 패턴으로 인코딩합니다. 조명 변화에 강건합니다.
+                            </p>
+                            <div class="text-center mb-3">
+                                <img src="../images/image10.png" alt="Census Transform 계산 과정" class="clickable-image rounded-lg border border-gray-600 bg-white p-2" style="max-width: 100%; height: auto;"/>
+                                <p class="img-caption">Census Transform 비트 패턴 생성 과정</p>
+                            </div>
+                            <div class="bg-gray-700 p-3 rounded mb-3">
+                                <div class="text-xs space-y-1">
+                                    <div>120 ≥ 100 → <span class="text-green-400 font-bold">1</span></div>
+                                    <div>125 ≥ 100 → <span class="text-green-400 font-bold">1</span></div>
+                                    <div>130 ≥ 100 → <span class="text-green-400 font-bold">1</span></div>
+                                    <div>110 ≥ 100 → <span class="text-green-400 font-bold">1</span></div>
+                                    <div>90 < 100 → <span class="text-red-400 font-bold">0</span></div>
+                                    <div>105 ≥ 100 → <span class="text-green-400 font-bold">1</span></div>
+                                    <div>95 < 100 → <span class="text-red-400 font-bold">0</span></div>
+                                    <div>80 < 100 → <span class="text-red-400 font-bold">0</span></div>
+                                </div>
+                            </div>
+                            <div class="text-center bg-green-900 bg-opacity-30 p-2 rounded">
+                                <span class="text-green-400 font-bold">결과: 11110100</span>
+                            </div>
+                        </div>
+
+                        <div class="click-hint">
+                            <i class="fas fa-mouse-pointer text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-gray-400 text-sm mt-6">💡 각 카드를 클릭하여 상세 정보를 확인하세요</p>
+            </div>
+
+            <!-- Slide 9: Local Matching Deep Dive -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">9 / 15</div>
+                <h2>지역 정합 알고리즘 상세</h2>
+                 <div class="grid-container w-full max-w-6xl">
+                    <div class="card">
+                        <h3 class="text-cyan-400">SAD (Sum of Absolute Differences)</h3>
+                        <p>픽셀값 차이의 절댓값 합으로 비용(Cost) 계산</p>
+                        <div class="interactive-calculator" id="sad-calculator">
+                            <div class="calc-grid-container">
+                                <div>
+                                    <h4 class="text-base font-semibold mb-2 text-center">좌측 윈도우</h4>
+                                    <div class="value-grid">
+                                        <input type="number" class="grid-input" value="85"><input type="number" class="grid-input" value="90"><input type="number" class="grid-input" value="95">
+                                        <input type="number" class="grid-input" value="80"><input type="number" class="grid-input" value="88"><input type="number" class="grid-input" value="92">
+                                        <input type="number" class="grid-input" value="75"><input type="number" class="grid-input" value="82"><input type="number" class="grid-input" value="85">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-semibold mb-2 text-center">우측 윈도우</h4>
+                                    <div class="value-grid">
+                                        <input type="number" class="grid-input" value="88"><input type="number" class="grid-input" value="92"><input type="number" class="grid-input" value="98">
+                                        <input type="number" class="grid-input" value="81"><input type="number" class="grid-input" value="89"><input type="number" class="grid-input" value="94">
+                                        <input type="number" class="grid-input" value="77"><input type="number" class="grid-input" value="84"><input type="number" class="grid-input" value="86">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="calculate-btn" id="sad-calculate-btn">SAD 비용 계산</button>
+                            <div class="calculation-steps" id="sad-steps">계산 과정이 여기에 표시됩니다...</div>
+                            <div class="result-display">Cost: <span id="sad-result" class="font-bold text-sky-300">?</span></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-cyan-400">SSD (Sum of Squared Differences)</h3>
+                        <p>픽셀값 차이의 제곱 합으로 비용 계산. 오차에 더 민감.</p>
+                        <div class="interactive-calculator" id="ssd-calculator">
+                            <div class="calc-grid-container">
+                                <div>
+                                    <h4 class="text-base font-semibold mb-2 text-center">좌측 윈도우</h4>
+                                    <div class="value-grid">
+                                        <input type="number" class="grid-input" value="85"><input type="number" class="grid-input" value="90"><input type="number" class="grid-input" value="95">
+                                        <input type="number" class="grid-input" value="80"><input type="number" class="grid-input" value="88"><input type="number" class="grid-input" value="92">
+                                        <input type="number" class="grid-input" value="75"><input type="number" class="grid-input" value="82"><input type="number" class="grid-input" value="85">
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-semibold mb-2 text-center">우측 윈도우</h4>
+                                    <div class="value-grid">
+                                        <input type="number" class="grid-input" value="88"><input type="number" class="grid-input" value="92"><input type="number" class="grid-input" value="98">
+                                        <input type="number" class="grid-input" value="81"><input type="number" class="grid-input" value="89"><input type="number" class="grid-input" value="94">
+                                        <input type="number" class="grid-input" value="77"><input type="number" class="grid-input" value="84"><input type="number" class="grid-input" value="86">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="calculate-btn" id="ssd-calculate-btn">SSD 비용 계산</button>
+                            <div class="calculation-steps" id="ssd-steps">계산 과정이 여기에 표시됩니다...</div>
+                            <div class="result-display">Cost: <span id="ssd-result" class="font-bold text-sky-300">?</span></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-cyan-400">Census Transform</h3>
+                        <p>중심 픽셀과 주변 픽셀의 대소 관계로 비트 패턴 생성</p>
+                        <div class="interactive-calculator" id="census-calculator">
+                            <div class="calc-grid-container justify-center">
+                                <div>
+                                     <h4 class="text-base font-semibold mb-2 text-center">픽셀 윈도우</h4>
+                                     <div class="value-grid">
+                                        <input type="number" class="grid-input" value="120"><input type="number" class="grid-input" value="125"><input type="number" class="grid-input" value="130">
+                                        <input type="number" class="grid-input" value="110"><input type="number" class="grid-input center" value="100"><input type="number" class="grid-input" value="90">
+                                        <input type="number" class="grid-input" value="105"><input type="number" class="grid-input" value="95"><input type="number" class="grid-input" value="80">
+                                     </div>
+                                </div>
+                            </div>
+                            <button class="calculate-btn" id="census-calculate-btn">Census 비트 패턴 생성</button>
+                            <div class="calculation-steps" id="census-steps">계산 과정이 여기에 표시됩니다...</div>
+                            <div class="result-display">결과: <span id="census-result" class="font-bold text-sky-300">?</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: 4. Python Implementation -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">10 / 15</div>
+                <h2>4. Python 코드 구현 (OpenCV)</h2>
+                <p class="mb-4">OpenCV는 강력한 스테레오 매칭 기능을 제공합니다.</p>
+                <div class="w-full max-w-4xl">
+                <h3 class="text-left-align text-cyan-400 mb-2">고급 구현 (StereoSGBM)</h3>
+                <pre class="code-block text-sm"><code>import cv2
+import numpy as np
+
+def advanced_stereo_matching(imgL, imgR):
+    window_size = 5
+    stereo = cv2.StereoSGBM_create(
+        minDisparity=0,
+        numDisparities=64,
+        blockSize=window_size,
+        P1=8 * 3 * window_size ** 2,
+        P2=32 * 3 * window_size ** 2,
+        disp12MaxDiff=1,
+        uniquenessRatio=10,
+        speckleWindowSize=100,
+        speckleRange=32
+    )
+    disparity = stereo.compute(imgL, imgR).astype(np.float32) / 16.0
+    return disparity
+                </code></pre>
+                </div>
+            </div>
+            
+            <!-- Slide 11: 5. Troubleshooting -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">11 / 15</div>
+                <h2>5. 실무 트러블슈팅 가이드</h2>
+                <div class="slide-content text-left-align items-stretch">
+                    <div class="card w-1/2">
+                        <h3 class="text-rose-400">문제 1: 시차 맵에 노이즈가 많아요!</h3>
+                        <p class="mb-4">점들이 흩날리거나, 연속적이지 않은 시차 값</p>
+                        <p class="font-bold text-sky-400"># 진단 및 해결</p>
+                         <ul class="list-disc list-inside space-y-1 mt-2 text-sm">
+                            <li><span class="text-highlight">카메라 캘리브레이션</span>이 틀어졌는지 확인 (가장 중요)</li>
+                            <li>조명이 어둡거나 <span class="text-highlight">텍스처가 부족한 환경</span>인지 점검 (ex: 흰 벽)</li>
+                             <li>알고리즘 매개변수(<span class="text-highlight">blockSize, uniquenessRatio</span>) 조정</li>
+                             <li>후처리 필터(Median Filter, WLS Filter) 적용</li>
+                        </ul>
+                    </div>
+                    <div class="card w-1/2">
+                        <h3 class="text-amber-400">문제 2: 특정 영역 매칭이 안돼요!</h3>
+                        <p class="mb-4">반복 패턴, 과노출/저노출 영역, 가려진(Occluded) 영역</p>
+                         <p class="font-bold text-sky-400"># 해결 전략</p>
+                        <ul class="list-disc list-inside space-y-1 mt-2 text-sm">
+                            <li><span class="text-highlight">적응적 전처리</span>(CLAHE)로 대비 향상</li>
+                            <li><span class="text-highlight">서로 다른 알고리즘 융합</span> (e.g., Census + SAD)</li>
+                             <li>Left-Right Consistency Check로 신뢰도 낮은 영역 제거</li>
+                             <li>IMU 등 다른 센서와 융합(Sensor Fusion)하여 보완</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: 6. Performance Optimization -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">12 / 15</div>
+                <h2>6. 성능 최적화 노하우</h2>
+                <div class="grid-container w-full max-w-5xl">
+                    <div class="card">
+                        <i class="fa-solid fa-compress card-icon"></i>
+                        <h3>해상도 낮추기</h3>
+                        <p class="text-sm">가장 효과적인 방법. 이미지 크기를 절반으로 줄이면 계산량은 1/4로 감소합니다.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-crop-simple card-icon"></i>
+                        <h3>관심 영역(ROI) 처리</h3>
+                        <p class="text-sm">화면 전체가 아닌 필요한 부분(e.g., 도로 영역)만 처리하여 계산량을 줄입니다.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-forward-step card-icon"></i>
+                        <h3>프레임 스키핑</h3>
+                        <p class="text-sm">모든 프레임을 처리하는 대신, 몇 프레임 건너뛰며 처리하여 부하를 줄입니다.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-microchip card-icon"></i>
+                        <h3>GPU 가속 (CUDA)</h3>
+                        <p class="text-sm">OpenCV의 CUDA 모듈을 사용하여 GPU에서 병렬 처리하여 속도를 비약적으로 향상시킵니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: 7. Case Study -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">13 / 15</div>
+                <h2>7. 실제 프로젝트 케이스 스터디</h2>
+                 <div class="slide-content text-left-align items-stretch">
+                    <div class="card w-1/3">
+                        <h3 class="text-sky-400">🚗 자율주행</h3>
+                        <p class="text-sm mb-2">전방 차량/장애물 거리 측정</p>
+                        <ul class="list-disc list-inside space-y-1 text-xs">
+                            <li><span class="text-highlight">특징:</span> 넓은 베이스라인, 실시간성, 높은 신뢰도</li>
+                             <li><span class="text-highlight">핵심기술:</span> SGBM, ROI 처리, 시간적 필터링, AI 객체탐지 융합</li>
+                        </ul>
+                    </div>
+                     <div class="card w-1/3">
+                        <h3 class="text-sky-400">🤖 실내 로봇</h3>
+                        <p class="text-sm mb-2">장애물 회피, SLAM</p>
+                        <ul class="list-disc list-inside space-y-1 text-xs">
+                            <li><span class="text-highlight">특징:</span> 짧은 베이스라인, 저전력, 저비용</li>
+                             <li><span class="text-highlight">핵심기술:</span> StereoBM, 바닥/장애물 분리, 탑뷰 변환</li>
+                        </ul>
+                    </div>
+                     <div class="card w-1/3">
+                        <h3 class="text-sky-400">🏭 제조업 검사</h3>
+                        <p class="text-sm mb-2">부품 높이/치수 측정</p>
+                        <ul class="list-disc list-inside space-y-1 text-xs">
+                            <li><span class="text-highlight">특징:</span> 고정 환경, 최고 정밀도</li>
+                             <li><span class="text-highlight">핵심기술:</span> 고해상도 SGBM, 서브픽셀 보정, 정밀 캘리브레이션</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Q&A -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">14 / 15</div>
+                <h2>Q & A</h2>
+                <div class="w-full max-w-3xl space-y-6 text-left-align">
+                    <div class="card">
+                        <h3>Q. 카메라 캘리브레이션이 너무 어려워요. 꼭 해야 하나요?</h3>
+                        <p class="mt-4 text-gray-300"><i class="fas fa-lightbulb text-yellow-300 mr-2"></i><span class="text-highlight">A. 정확한 '미터(meter)' 단위 거리를 원한다면 필수입니다.</span> 캘리브레이션은 픽셀 세계와 현실 세계를 연결하는 '번역기'와 같습니다. 부정확한 캘리브레이션은 모든 측정값의 오차를 유발합니다.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Q. 딥러닝 기반 스테레오 매칭은 기존 방식보다 항상 좋은가요?</h3>
+                        <p class="mt-4 text-gray-300"><i class="fas fa-lightbulb text-yellow-300 mr-2"></i><span class="text-highlight">A. 항상 그렇지는 않습니다.</span> 딥러닝 모델은 학습 데이터와 유사한 환경에서는 최고의 정확도를 보이지만, 처음 보는 환경에서는 성능이 저하될 수 있습니다. 또한, 상당한 GPU 자원을 필요로 하므로 임베디드 환경에는 SGBM 같은 전통적 방식이 더 효율적일 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Final -->
+            <div class="swiper-slide">
+                <div class="absolute top-6 right-8 text-lg font-bold text-gray-500">15 / 15</div>
+                <h1 class="bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">감사합니다</h1>
+                <p class="text-lg text-gray-400 mt-4">궁금한 점이 있다면 언제든지 질문해주세요.</p>
+                 <p class="text-sm text-gray-500 mt-12">Generated from stereo_vision_guide.md</p>
+            </div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <img id="modalImage" class="modal-image" src="" alt="">
+        </div>
+    </div>
+
+    <!-- Calculation Modal -->
+    <div id="calcModal" class="calc-modal">
+        <div class="calc-modal-content">
+            <span class="calc-close" id="calcClose">&times;</span>
+            <div class="calc-modal-header">
+                <h2 class="calc-modal-title" id="calcModalTitle">계산 과정</h2>
+                <p class="calc-modal-subtitle" id="calcModalSubtitle">단계별 계산 과정을 확인하세요</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <div class="text-center">
+                    <h3 class="text-lg font-semibold mb-4 text-cyan-400">좌측 윈도우</h3>
+                    <div class="calc-grid-large" id="leftGridLarge"></div>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg font-semibold mb-4 text-cyan-400">우측 윈도우</h3>
+                    <div class="calc-grid-large" id="rightGridLarge"></div>
+                </div>
+            </div>
+            
+            <div class="calc-steps-large" id="calcStepsLarge">
+                <div class="text-center text-gray-400 text-lg">계산을 시작하려면 원본 카드의 계산 버튼을 클릭하세요</div>
+            </div>
+            
+            <div id="finalResultLarge" class="final-result" style="display: none;">
+                <span id="finalResultText">최종 결과: </span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: false,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            
+            // Keyboard control
+            keyboard: {
+                enabled: true,
+            },
+        });
+
+        // --- Interactive Calculators Logic with Animation ---
+        function clearHighlights(calcId) {
+            const inputs = document.querySelectorAll(`#${calcId} .grid-input`);
+            inputs.forEach(input => {
+                input.classList.remove('highlight', 'processing');
+            });
+        }
+
+        function animateStep(leftEl, rightEl, stepEl, stepText, delay = 500) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    leftEl?.classList.add('highlight');
+                    rightEl?.classList.add('highlight');
+                    stepEl.innerHTML += stepText + '<br>';
+                    stepEl.scrollTop = stepEl.scrollHeight;
+                    
+                    setTimeout(() => {
+                        leftEl?.classList.remove('highlight');
+                        rightEl?.classList.remove('highlight');
+                        leftEl?.classList.add('processing');
+                        rightEl?.classList.add('processing');
+                        
+                        setTimeout(() => {
+                            leftEl?.classList.remove('processing');
+                            rightEl?.classList.remove('processing');
+                            resolve();
+                        }, 300);
+                    }, 300);
+                }, delay);
+            });
+        }
+
+        // Modal related functions
+        function openCalcModal(algorithm, title, subtitle) {
+            const modal = document.getElementById('calcModal');
+            const modalTitle = document.getElementById('calcModalTitle');
+            const modalSubtitle = document.getElementById('calcModalSubtitle');
+            const leftGrid = document.getElementById('leftGridLarge');
+            const rightGrid = document.getElementById('rightGridLarge');
+            const stepsEl = document.getElementById('calcStepsLarge');
+            const finalResult = document.getElementById('finalResultLarge');
+            
+            modalTitle.textContent = title;
+            modalSubtitle.textContent = subtitle;
+            
+            // Clear previous content
+            leftGrid.innerHTML = '';
+            rightGrid.innerHTML = '';
+            stepsEl.innerHTML = '<div class="text-center text-cyan-400 text-lg font-semibold">계산 준비 중...</div>';
+            finalResult.style.display = 'none';
+            
+            // Get original grid values
+            const calcId = `${algorithm}-calculator`;
+            const originalLeft = document.querySelectorAll(`#${calcId} .calc-grid-container > div:first-child .grid-input`);
+            const originalRight = algorithm === 'census' ? null : document.querySelectorAll(`#${calcId} .calc-grid-container > div:last-child .grid-input`);
+            
+            // Create large grids
+            if (algorithm === 'census') {
+                // For census, show only one grid
+                document.querySelector('#calcModal .grid').classList.add('hidden');
+                const singleGrid = document.createElement('div');
+                singleGrid.className = 'text-center mb-6';
+                singleGrid.innerHTML = `
+                    <h3 class="text-lg font-semibold mb-4 text-cyan-400">픽셀 윈도우</h3>
+                    <div class="calc-grid-large mx-auto" id="singleGridLarge"></div>
+                `;
+                document.querySelector('.calc-modal-header').after(singleGrid);
+                
+                const singleGridEl = document.getElementById('singleGridLarge');
+                originalLeft.forEach((input, i) => {
+                    const newInput = document.createElement('div');
+                    newInput.className = `grid-input-large ${i === 4 ? 'center' : ''}`;
+                    newInput.textContent = input.value;
+                    newInput.dataset.index = i;
+                    singleGridEl.appendChild(newInput);
+                });
+            } else {
+                // For SAD/SSD, show both grids
+                originalLeft.forEach((input, i) => {
+                    const leftDiv = document.createElement('div');
+                    leftDiv.className = 'grid-input-large';
+                    leftDiv.textContent = input.value;
+                    leftDiv.dataset.index = i;
+                    leftGrid.appendChild(leftDiv);
+                });
+                
+                originalRight.forEach((input, i) => {
+                    const rightDiv = document.createElement('div');
+                    rightDiv.className = 'grid-input-large';
+                    rightDiv.textContent = input.value;
+                    rightDiv.dataset.index = i;
+                    rightGrid.appendChild(rightDiv);
+                });
+            }
+            
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCalcModal() {
+            const modal = document.getElementById('calcModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            
+            // Clean up census-specific layout
+            const singleGrid = document.querySelector('#calcModal .text-center.mb-6');
+            if (singleGrid && singleGrid.querySelector('#singleGridLarge')) {
+                singleGrid.remove();
+                document.querySelector('#calcModal .grid').classList.remove('hidden');
+            }
+        }
+
+        async function animateModalStep(leftIndex, rightIndex, stepContent, algorithm, delay = 800) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const stepsEl = document.getElementById('calcStepsLarge');
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'step-item';
+                    stepDiv.innerHTML = stepContent;
+                    stepsEl.appendChild(stepDiv);
+                    
+                    // Highlight elements
+                    if (algorithm === 'census') {
+                        const gridEl = document.getElementById('singleGridLarge');
+                        if (leftIndex !== null && gridEl) {
+                            const elements = gridEl.children;
+                            if (elements[leftIndex]) {
+                                elements[leftIndex].classList.add('highlight');
+                                setTimeout(() => elements[leftIndex].classList.remove('highlight'), 1500);
+                            }
+                        }
+                    } else {
+                        const leftGrid = document.getElementById('leftGridLarge');
+                        const rightGrid = document.getElementById('rightGridLarge');
+                        
+                        if (leftIndex !== null && leftGrid.children[leftIndex]) {
+                            leftGrid.children[leftIndex].classList.add('highlight');
+                            setTimeout(() => leftGrid.children[leftIndex].classList.remove('highlight'), 1500);
+                        }
+                        if (rightIndex !== null && rightGrid.children[rightIndex]) {
+                            rightGrid.children[rightIndex].classList.add('highlight');
+                            setTimeout(() => rightGrid.children[rightIndex].classList.remove('highlight'), 1500);
+                        }
+                    }
+                    
+                    stepsEl.scrollTop = stepsEl.scrollHeight;
+                    resolve();
+                }, delay);
+            });
+        }
+
+        // Updated SAD Calculation with Modal
+        document.getElementById('sad-calculate-btn').addEventListener('click', async () => {
+            const calcId = 'sad-calculator';
+            const btn = document.getElementById('sad-calculate-btn');
+            const resultEl = document.getElementById('sad-result');
+            const left = document.querySelectorAll(`#${calcId} .calc-grid-container > div:first-child .grid-input`);
+            const right = document.querySelectorAll(`#${calcId} .calc-grid-container > div:last-child .grid-input`);
+            
+            // Open modal
+            openCalcModal('sad', 'SAD (Sum of Absolute Differences)', '픽셀값 차이의 절댓값 합 계산');
+            
+            btn.disabled = true;
+            resultEl.textContent = '계산중...';
+            
+            // Clear original steps
+            document.getElementById('sad-steps').innerHTML = '';
+            
+            let totalCost = 0;
+            
+            // Add initial step
+            await animateModalStep(null, null, `
+                <div class="step-number">SAD 계산 시작</div>
+                <div class="text-gray-300">공식: SAD = Σ |좌측픽셀 - 우측픽셀|</div>
+            `, 'sad', 200);
+            
+            for (let i = 0; i < left.length; i++) {
+                const leftVal = parseInt(left[i].value, 10) || 0;
+                const rightVal = parseInt(right[i].value, 10) || 0;
+                const diff = Math.abs(leftVal - rightVal);
+                totalCost += diff;
+                
+                const stepContent = `
+                    <div class="step-number">Step ${i+1}</div>
+                    <div class="step-calculation">|${leftVal} - ${rightVal}| = ${diff}</div>
+                    <div class="step-result">누적 합계: ${totalCost}</div>
+                `;
+                
+                await animateModalStep(i, i, stepContent, 'sad');
+            }
+            
+            // Show final result
+            const finalResultEl = document.getElementById('finalResultLarge');
+            const finalResultText = document.getElementById('finalResultText');
+            finalResultText.textContent = `최종 SAD 비용: ${totalCost}`;
+            finalResultEl.style.display = 'block';
+            
+            resultEl.textContent = totalCost;
+            btn.disabled = false;
+        });
+
+        // Updated SSD Calculation with Modal
+        document.getElementById('ssd-calculate-btn').addEventListener('click', async () => {
+            const calcId = 'ssd-calculator';
+            const btn = document.getElementById('ssd-calculate-btn');
+            const resultEl = document.getElementById('ssd-result');
+            const left = document.querySelectorAll(`#${calcId} .calc-grid-container > div:first-child .grid-input`);
+            const right = document.querySelectorAll(`#${calcId} .calc-grid-container > div:last-child .grid-input`);
+            
+            // Open modal
+            openCalcModal('ssd', 'SSD (Sum of Squared Differences)', '픽셀값 차이의 제곱 합 계산');
+            
+            btn.disabled = true;
+            resultEl.textContent = '계산중...';
+            
+            // Clear original steps
+            document.getElementById('ssd-steps').innerHTML = '';
+            
+            let totalCost = 0;
+            
+            // Add initial step
+            await animateModalStep(null, null, `
+                <div class="step-number">SSD 계산 시작</div>
+                <div class="text-gray-300">공식: SSD = Σ (좌측픽셀 - 우측픽셀)²</div>
+            `, 'ssd', 200);
+            
+            for (let i = 0; i < left.length; i++) {
+                const leftVal = parseInt(left[i].value, 10) || 0;
+                const rightVal = parseInt(right[i].value, 10) || 0;
+                const diff = leftVal - rightVal;
+                const squared = diff * diff;
+                totalCost += squared;
+                
+                const stepContent = `
+                    <div class="step-number">Step ${i+1}</div>
+                    <div class="step-calculation">(${leftVal} - ${rightVal})² = ${diff}² = ${squared}</div>
+                    <div class="step-result">누적 합계: ${totalCost}</div>
+                `;
+                
+                await animateModalStep(i, i, stepContent, 'ssd');
+            }
+            
+            // Show final result
+            const finalResultEl = document.getElementById('finalResultLarge');
+            const finalResultText = document.getElementById('finalResultText');
+            finalResultText.textContent = `최종 SSD 비용: ${totalCost}`;
+            finalResultEl.style.display = 'block';
+            
+            resultEl.textContent = totalCost;
+            btn.disabled = false;
+        });
+
+        // Updated Census Transform Calculation with Modal
+        document.getElementById('census-calculate-btn').addEventListener('click', async () => {
+            const calcId = 'census-calculator';
+            const btn = document.getElementById('census-calculate-btn');
+            const resultEl = document.getElementById('census-result');
+            const inputs = document.querySelectorAll(`#${calcId} .value-grid .grid-input`);
+            const values = Array.from(inputs).map(input => parseInt(input.value, 10) || 0);
+            
+            // Open modal
+            openCalcModal('census', 'Census Transform', '중심 픽셀과 주변 픽셀의 대소 관계로 비트 패턴 생성');
+            
+            btn.disabled = true;
+            resultEl.innerHTML = '계산중...';
+            
+            // Clear original steps
+            document.getElementById('census-steps').innerHTML = '';
+            
+            if (values.length !== 9) {
+                resultEl.textContent = 'Error';
+                btn.disabled = false;
+                return;
+            }
+
+            const centerValue = values[4];
+            const neighborIndices = [0, 1, 2, 3, 5, 6, 7, 8];
+            let bitString = '';
+            
+            // Add initial step
+            await animateModalStep(4, null, `
+                <div class="step-number">Census Transform 시작</div>
+                <div class="step-calculation">중심값: ${centerValue}</div>
+                <div class="text-gray-300">각 주변 픽셀과 중심값을 비교하여 비트 패턴 생성</div>
+            `, 'census', 200);
+            
+            for (let i = 0; i < neighborIndices.length; i++) {
+                const index = neighborIndices[i];
+                const neighborVal = values[index];
+                const bit = (neighborVal >= centerValue) ? '1' : '0';
+                bitString += bit;
+                
+                const comparison = neighborVal >= centerValue ? '≥' : '<';
+                const stepContent = `
+                    <div class="step-number">비교 ${i+1}</div>
+                    <div class="step-calculation">${neighborVal} ${comparison} ${centerValue} → <span style="background: ${bit === '1' ? '#10B981' : '#EF4444'}; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-weight: bold;">${bit}</span></div>
+                    <div class="step-result">현재 패턴: ${bitString}</div>
+                `;
+                
+                await animateModalStep(index, null, stepContent, 'census');
+            }
+            
+            const decimalValue = parseInt(bitString, 2);
+            
+            // Show final result
+            const finalResultEl = document.getElementById('finalResultLarge');
+            const finalResultText = document.getElementById('finalResultText');
+            finalResultText.innerHTML = `
+                최종 이진 패턴: <span style="font-family: monospace; background: #1F2937; padding: 0.5rem; border-radius: 0.25rem;">${bitString}</span><br>
+                십진수 값: <span style="color: #10B981; font-weight: bold;">${decimalValue}</span>
+            `;
+            finalResultEl.style.display = 'block';
+            
+            resultEl.innerHTML = `<br>이진값: ${bitString}<br>십진수: ${decimalValue}`;
+            btn.disabled = false;
+        });
+
+        // Algorithm Cards Interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.algorithm-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const algorithm = this.dataset.algorithm;
+                    const content = document.getElementById(`${algorithm}-content`);
+                    const isExpanded = this.classList.contains('expanded');
+                    
+                    // Close all other cards
+                    cards.forEach(otherCard => {
+                        if (otherCard !== this) {
+                            otherCard.classList.remove('expanded');
+                            const otherAlgorithm = otherCard.dataset.algorithm;
+                            const otherContent = document.getElementById(`${otherAlgorithm}-content`);
+                            otherContent.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle current card
+                    if (isExpanded) {
+                        this.classList.remove('expanded');
+                        content.classList.remove('show');
+                    } else {
+                        this.classList.add('expanded');
+                        content.classList.add('show');
+                    }
+                });
+            });
+
+            // Image Modal Functionality
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModal = document.getElementById('closeModal');
+
+            // Open modal when clicking on clickable images
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('clickable-image')) {
+                    e.stopPropagation(); // Prevent card toggle
+                    modal.classList.add('show');
+                    modalImage.src = e.target.src;
+                    modalImage.alt = e.target.alt;
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                }
+            });
+
+            // Close modal when clicking close button
+            closeModal.addEventListener('click', function() {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            });
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = 'auto'; // Restore scrolling
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                    document.body.style.overflow = 'auto'; // Restore scrolling
+                }
+            });
+
+            // Calculation Modal Controls
+            const calcModal = document.getElementById('calcModal');
+            const calcClose = document.getElementById('calcClose');
+
+            // Close calculation modal when clicking close button
+            calcClose.addEventListener('click', closeCalcModal);
+
+            // Close calculation modal when clicking outside the content
+            calcModal.addEventListener('click', function(e) {
+                if (e.target === calcModal) {
+                    closeCalcModal();
+                }
+            });
+
+            // Close calculation modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && calcModal.classList.contains('show')) {
+                    closeCalcModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
