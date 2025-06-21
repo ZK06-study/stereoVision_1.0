@@ -103,6 +103,6 @@ test_images/
 output/
 temp/ 
 docs/tutoring_script.md
-docs/01_basic_stereo_vision_script.md
-docs/02_stereo_matching_algorithms_script.md
-docs/03_depth_estimation_script.md
+01_basic_stereo_vision_script.md
+02_stereo_matching_algorithms_script.md
+03_depth_estimation_script.md
